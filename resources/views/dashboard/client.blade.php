@@ -1,0 +1,5 @@
+@extends('layouts.app')
+@section('title', 'Mon espace | GeoArtisans')
+@section('content')
+<section class="dashboard-shell"><div class="dashboard-intro"><span class="eyebrow">ESPACE CLIENT / 01</span><h1>Bonjour, {{ $user->first_name ?: $user->name }}.</h1><p>Retrouvez les professionnels qui font avancer votre quotidien.</p></div><div class="dashboard-grid"><article class="dashboard-card dashboard-card-accent"><span class="card-index">.01</span><h2>Explorer les artisans</h2><p>Recherchez un métier, une zone ou un service à Butembo.</p><a class="button button-dark" href="{{ route('home') }}#explore">Commencer une recherche</a></article><article class="dashboard-card"><span class="card-index">.02</span><h2>Mes favoris</h2><p>Votre carnet de professionnels sera disponible ici.</p><span class="empty-state">Aucun favori pour le moment</span></article><article class="dashboard-card"><span class="card-index">.03</span><h2>Mes messages</h2><p>Échangez directement avec les artisans de votre choix.</p><span class="empty-state">Aucun message</span></article></div></section>
+@endsection
