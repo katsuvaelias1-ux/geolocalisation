@@ -335,3 +335,181 @@ body.site-loading { overflow: hidden; }
 .button:focus-visible { outline: 3px solid #ff5a3c88; outline-offset: 3px; }
 .artisan-cta .button-light { box-shadow-color: #fff; }
 .artisan-cta .button-light:hover { box-shadow: 0 6px 0 #fff; }
+
+
+/* ==========================================================================
+   OPTIMISATIONS MULTI-NAVIGATEURS ET CORRECTIONS TACTILES
+   ========================================================================== */
+
+/* Fix pour Safari iOS : Gestion de la hauteur réelle de l'écran */
+.city-map-page,
+.city-map,
+.site-intro {
+  /* Fallback pour navigateurs plus anciens, puis viewport dynamique pour mobiles modernes */
+  height: calc(100vh - 130px);
+  height: calc(100dvh - 130px); 
+}
+
+.site-intro {
+  height: 100vh;
+  height: 100dvh;
+}
+
+/* Amélioration du défilement tactile sur iOS/Android */
+.city-map-panel,
+.map-category-filters,
+.map-artisan-list {
+  -webkit-overflow-scrolling: touch; /* Défilement fluide sur iOS */
+  touch-action: pan-y;                /* Préviens les conflits de gestes */
+}
+
+/* Optimisation du rendu du texte sur tous les moteurs (Webkit / Gecko) */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   BREAKPOINTS RESPONSIVE (DU PLUS GRAND AU PLUS PETIT ÉCRAN)
+   ========================================================================== */
+
+/* --- 1. TRÈS GRANDS ÉCRANS / ECRANS 4K (≥ 1440px) --- */
+@media (min-width: 1440px) {
+  .city-map-panel {
+    max-width: 440px;
+    width: 25vw;
+  }
+  .home-discovery-bar {
+    max-width: 580px;
+  }
+  .intro-content {
+    max-width: 780px;
+  }
+}
+
+/* --- 2. DÉSACTIVATION / AJUSTEMENT DE LA BARRE LATÉRALE (1051px à 1200px) --- */
+@media (max-width: 1200px) {
+  .home-page .editorial-hero {
+    padding-left: max(8vw, 6rem);
+  }
+}
+
+@media (max-width: 1050px) {
+  .home-discovery-bar {
+    width: 34vw;
+  }
+  .home-discovery-bar strong {
+    display: none;
+  }
+  .home-page .header-command-contact {
+    display: none;
+  }
+}
+
+/* --- 3. TABLETTES EN MODE PAYSAGE ET PETITS Laptops (851px à 1024px) --- */
+@media (max-width: 1024px) {
+  .city-map-panel {
+    width: 380px;
+  }
+  .map-scale-note {
+    left: calc(380px + 1rem);
+  }
+}
+
+/* --- 4. TABLETTES EN MODE PORTRAIT (≤ 850px) --- */
+@media (max-width: 850px) {
+  /* Grilles et Héros */
+  .home-hero { min-height: auto; padding-bottom: 3rem; padding-top: 3rem; }
+  .home-hero .hero-photo { min-height: 370px; }
+  .home-manifesto { grid-template-columns: 1fr; gap: 1.15rem; padding-bottom: 3.5rem; padding-top: 3.5rem; }
+  .home-manifesto p { padding-bottom: 0; }
+  .home-feature, .home-feature .feature-image { min-height: 390px; }
+  .home-services, .home-gallery, .home-steps { padding-bottom: 3.5rem; padding-top: 3.5rem; }
+
+  /* Carte interactive */
+  .city-map-page { height: auto; min-height: 0; }
+  .city-map { height: 520px; }
+  .city-map-panel {
+    box-shadow: 0 2px 16px #1b252a25;
+    height: auto;
+    max-width: none;
+    padding: 1rem 5vw;
+    position: relative;
+    width: 100%;
+  }
+  .map-floating-brand { display: none; }
+  .map-scale-note { bottom: .75rem; left: .75rem; }
+  .map-artisan-list { max-height: 310px; overflow-y: auto; }
+
+  /* En-tête et Navigation Mobile */
+  .header-command-quiet { display: none; }
+  .header-command-primary, 
+  .header-actions form .button { font-size: .57rem; padding-left: .6rem; padding-right: .6rem; }
+  .home-progress-rail { display: none; }
+  .home-page .site-header { padding-left: 5vw; padding-right: 5vw; }
+  .home-page .editorial-hero { padding-left: 5vw; padding-right: 5vw; padding-top: 6rem; }
+  .home-discovery-bar { left: auto; right: 5vw; transform: none; width: auto; }
+  .home-discovery-bar strong { display: none; }
+  .home-page .brand { background: transparent; }
+  .home-page .header-command-primary { display: none; }
+}
+
+/* --- 5. GRANDS SMARTPHONES (521px à 680px) --- */
+@media (max-width: 680px) {
+  .city-map { height: 460px; }
+  .home-page .editorial-hero { min-height: auto; padding-bottom: 3rem; }
+  .city-map-search { padding: .5rem .8rem; }
+}
+
+/* --- 6. PETITS SMARTPHONES (≤ 520px) --- */
+@media (max-width: 520px) {
+  /* Héros et éléments d'accueil */
+  .home-hero .hero-photo { min-height: 320px; }
+  .home-hero .search-panel { box-shadow: 4px 4px 0 var(--ink); }
+  .home-services .category-grid article { min-height: 0; }
+  .home-discovery-bar { top: 4.9rem; }
+  .home-page .editorial-hero { padding-top: 8.5rem; }
+  .home-discovery-bar span { font-size: .52rem; }
+  .home-page .menu-toggle { background: #fff; }
+
+  /* Carte */
+  .city-map { height: 400px; }
+  .city-map-panel-head h1 { font-size: 1.7rem; }
+  .map-artisan-card { grid-template-columns: 3rem minmax(0, 1fr) auto; }
+  .map-artisan-visual { height: 3rem; width: 3rem; }
+
+  /* Écran d'introduction cinématique */
+  .site-intro:before { height: 17rem; right: -7rem; top: -7rem; width: 17rem; }
+  .intro-content strong { font-size: clamp(2.2rem, 11vw, 3.8rem); }
+  .intro-content p { margin-top: 2.4rem; }
+  .intro-orbit-one { left: -2rem; top: 15vh; }
+  .intro-orbit-two { right: 0; }
+}
+
+/* --- 7. TRÈS PETITS SMARTPHONES (≤ 360px) --- */
+@media (max-width: 360px) {
+  .city-map-search { border-radius: 1rem; }
+  .map-category-filters button { padding: .4rem .55rem; font-size: .62rem; }
+  .header-actions { gap: .35rem; }
+  .button { padding: .65rem .85rem; }
+}
+
+/* ==========================================================================
+   ACCESSIBILITÉ ET PRÉFÉRENCES UTILISATEUR
+   ========================================================================== */
+
+/* Support pour la réduction des mouvements (mal de transports / accessibilité) */
+@media (prefers-reduced-motion: reduce) {
+  .intro-content, 
+  .intro-progress span, 
+  .intro-orbit,
+  .home-page .hero-photo, 
+  .home-page .hero-photo:before, 
+  .home-page .hero-photo:after, 
+  .home-page .hero-copy:after,
+  .button,
+  .map-artisan-card {
+    animation: none !important;
+    transition: none !important;
+  }
+}
