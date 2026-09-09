@@ -1,9 +1,8 @@
 # Étape 1 : Compilation des assets frontend avec Node.js / Vite
 FROM node:18-alpine as frontend
 WORKDIR /app
-COPY package*.json vite.config.js ./
-COPY resources/ resources/
-RUN npm ci && npm run build
+COPY . .
+RUN npm install && npm run build
 
 # Étape 2 : Image principale PHP 8.2 avec Apache
 FROM php:8.2-apache
@@ -32,7 +31,7 @@ COPY . .
 # Injection du dossier public/build compilé par Vite
 COPY --from=frontend /app/public/build /var/www/html/public/build
 
-# Installation des dépendances Composer (avec les extensions PHP déjà actives)
+# Installation des dépendances Composer
 RUN composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
 
 # Configuration de la racine Apache vers /public pour Laravel
