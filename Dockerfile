@@ -37,4 +37,8 @@ ENV PORT=8080
 EXPOSE 8080
 RUN sed -i 's/80/${PORT}/g' /etc/apache2/ports.conf /etc/apache2/sites-available/000-default.conf
 
-CMD ["apache2-foreground"]
+# Copie du script d'entrée et attribution des droits d'exécution
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
