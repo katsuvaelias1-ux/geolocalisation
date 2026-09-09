@@ -37,7 +37,18 @@ class DatabaseSeeder extends Seeder
             ['first_name' => 'Patrick', 'name' => 'Mbusa', 'email' => 'patrick.mbusa@butembo.artisans', 'category' => 'Informatique', 'profession' => 'Technicien informatique', 'commune' => 'Bulengera', 'quartier' => 'Centre-ville', 'cell' => 'Centre-ville I', 'address' => 'Avenue du Commerce', 'latitude' => -0.1302, 'longitude' => 29.2921, 'profile_photo' => 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&q=85', 'cover_image' => 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=85'],
         ];
 
+        // Les profils de démonstration représentent la communauté locale.
+        // Ce sont des portraits d'illustration, pas les personnes nommées ci-dessus.
+        $portraitUrls = [
+            'jean.kambale@butembo.artisans' => 'https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?auto=format&fit=crop&w=400&q=85',
+            'aline.kasereka@butembo.artisans' => 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=400&q=85',
+            'david.mumbere@butembo.artisans' => 'https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?auto=format&fit=crop&w=400&q=85',
+            'grace.kavira@butembo.artisans' => 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=400&q=85',
+            'patrick.mbusa@butembo.artisans' => 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&q=85',
+        ];
+
         foreach ($artisans as $artisan) {
+            $artisan['profile_photo'] = $portraitUrls[$artisan['email']];
             $user = User::updateOrCreate(
                 ['email' => $artisan['email']],
                 [
