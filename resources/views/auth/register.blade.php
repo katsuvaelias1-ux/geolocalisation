@@ -13,7 +13,7 @@
     <div class="form-panel">
         <span class="eyebrow">Créer un compte</span>
         <h2>Votre point de départ.</h2>
-        <form method="POST" action="{{ route('register.store') }}" enctype="multipart/form-data" class="stack-form">
+        <form method="POST" action="{{ route('register.store') }}" enctype="multipart/form-data" class="stack-form" id="registration-form">
             @csrf
             <div class="form-grid">
                 <label>Prénom
@@ -122,5 +122,19 @@
     };
     accountRole?.addEventListener('change', syncArtisanFields);
     syncArtisanFields();
+
+    document.querySelector('#registration-form')?.addEventListener('submit', (event) => {
+        const profilePhoto = document.querySelector('[name="profile_photo"]')?.files[0];
+        const coverImage = document.querySelector('[name="cover_image"]')?.files[0];
+        const megabyte = 1024 * 1024;
+
+        if (profilePhoto && profilePhoto.size > 4 * megabyte) {
+            event.preventDefault();
+            alert('La photo de profil ne doit pas dépasser 4 Mo.');
+        } else if (coverImage && coverImage.size > 6 * megabyte) {
+            event.preventDefault();
+            alert('La photo de votre métier ne doit pas dépasser 6 Mo.');
+        }
+    });
 </script>
 @endpush

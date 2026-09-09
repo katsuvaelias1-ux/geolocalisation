@@ -8,6 +8,7 @@ php artisan view:cache
 
 # Exécution des migrations PostgreSQL
 php artisan migrate --force
+php artisan db:seed --force
 
 # Démarrage d'Apache en premier plan
 exec apache2-foreground

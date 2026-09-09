@@ -18,6 +18,15 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Activation du module d'écriture d'URL Apache
 RUN a2enmod rewrite
 
+# Le formulaire artisan peut contenir deux images (4 Mo + 6 Mo).
+RUN { \
+        echo 'upload_max_filesize=6M'; \
+        echo 'post_max_size=16M'; \
+        echo 'max_file_uploads=5'; \
+        echo 'max_execution_time=120'; \
+        echo 'max_input_time=120'; \
+    } > /usr/local/etc/php/conf.d/uploads.ini
+
 WORKDIR /var/www/html
 
 # Copie complète du projet (incluant le dossier public/build)

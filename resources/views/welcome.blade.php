@@ -64,10 +64,11 @@
 <section class="section-band section-light home-services reveal" id="services">
     <div class="section-heading"><span class="eyebrow">03 / EXPLOREZ</span><h2>Quel service recherchez-vous ?</h2><a class="arrow-link" href="{{ route('services.index') }}">Toutes les catégories <span>→</span></a></div>
     <div class="category-grid">
-        <article><span>01</span><h3>Plomberie</h3><p>Installation, dépannage et entretien.</p><a href="{{ route('services.index') }}">Trouver un artisan →</a></article>
-        <article><span>02</span><h3>Électricité</h3><p>Un professionnel pour vos installations.</p><a href="{{ route('services.index') }}">Trouver un artisan →</a></article>
-        <article><span>03</span><h3>Menuiserie</h3><p>Le travail du bois, près de chez vous.</p><a href="{{ route('services.index') }}">Trouver un artisan →</a></article>
-        <article><span>04</span><h3>Informatique</h3><p>Assistance et solutions numériques.</p><a href="{{ route('services.index') }}">Trouver un artisan →</a></article>
+        @forelse(\App\Models\Category::query()->where('status', true)->orderBy('name')->limit(4)->get() as $category)
+            <article><span>{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span><h3>{{ $category->name }}</h3><p>{{ $category->description ?: 'Trouvez un professionnel de proximité pour ce service.' }}</p><a href="{{ route('categories.show', $category) }}">Trouver un artisan →</a></article>
+        @empty
+            <div class="empty-page"><h2>Les catégories arrivent bientôt.</h2><p>Actualisez cette page dans quelques instants.</p></div>
+        @endforelse
     </div>
 </section>
 
