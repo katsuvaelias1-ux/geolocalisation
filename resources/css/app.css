@@ -513,3 +513,60 @@ body {
     transition: none !important;
   }
 }
+
+/* ==========================================================================
+   REINITIALISATION PLEIN ECRAN SANS ESPACES INUTILES (FULL VIEWPORT)
+   ========================================================================== */
+
+/* 1. Suppression de toutes les marges par défaut du navigateur */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 2. Blocage des décalages d'écran et des barres de défilement parasites */
+html, body {
+  width: 100%;
+  height: 100%;
+  height: 100vh;
+  height: 100dvh; /* Hauteur dynamique pour mobiles (Safari iOS & Android) */
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow-x: hidden; /* Empêche le glissement horizontal indésirable */
+}
+
+/* 3. Ajustement de la structure principale de votre page */
+.city-map-page,
+.home-page,
+#app {
+  width: 100vw;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 4. Optimisation de la carte pour occuper tout l'espace disponible */
+.city-map {
+  width: 100%;
+  height: 100%;
+  flex: 1; /* Remplit tout l'espace restant verticalement */
+}
+
+/* 5. Adaptation des panneaux latéraux sur grand écran */
+@media (min-width: 851px) {
+  .city-map-page {
+    display: flex;
+    flex-direction: row; /* Met la carte et le panneau côte à côte sans vide */
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  .city-map-panel {
+    height: 100%;
+    max-height: 100vh;
+    border-radius: 0; /* Enlève les coins arrondis qui créent des vides */
+  }
+}
