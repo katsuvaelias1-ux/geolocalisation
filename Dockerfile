@@ -1,21 +1,14 @@
-# Étape 1 : Dépendances PHP via Composer
-FROM composer:latest as vendor
-WORKDIR /app
-COPY database/ database/
-COPY composer.json composer.lock ./
-RUN composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
-
-# Étape 2 : Compilation des assets frontend via Node.js / Vite
+# Étape 1 : Compilation des assets frontend avec Node.js / Vite
 FROM node:18-alpine as frontend
 WORKDIR /app
 COPY package*.json vite.config.js ./
 COPY resources/ resources/
 RUN npm ci && npm run build
 
-# Étape 3 : Image d'exécution finale PHP 8.2 + Apache
+# Étape 2 : Image principale PHP 8.2 avec Apache
 FROM php:8.2-apache
 
-# Installation des extensions système et PHP
+# Installation des dépendances système, de libpq-dev (PostgreSQL) et des extensions PHP
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libzip-dev \
@@ -25,26 +18,33 @@ RUN apt-get update && apt-get install -y \
     git \
     && docker-php-ext-install pdo pdo_mysql pdo_pgsql pgsql gd zip
 
-# Activation de mod_rewrite d'Apache
+# Installation de Composer directement dans l'image PHP
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Activation de mod_rewrite pour Apache
 RUN a2enmod rewrite
 
-# Copie du code source du projet
-COPY . /var/www/html
+WORKDIR /var/www/html
 
-# Injection du dossier vendor et du dossier public/build compilé par Vite
-COPY --from=vendor /app/vendor /var/www/html/vendor
+# Copie du code source complet
+COPY . .
+
+# Injection du dossier public/build compilé par Vite
 COPY --from=frontend /app/public/build /var/www/html/public/build
 
-# Point d'entrée Apache vers le dossier /public
+# Installation des dépendances Composer (avec les extensions PHP déjà actives)
+RUN composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
+
+# Configuration de la racine Apache vers /public pour Laravel
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/conf-available/*.conf
 
-# Permissions système pour Apache
+# Permissions pour les dossiers de stockage et de cache
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache 2>/dev/null || true
 
-# Configuration du script d'entrée
+# Copie et configuration du script de démarrage
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
