@@ -23,6 +23,21 @@ menuToggle?.addEventListener('click', () => {
 	menuToggle.textContent = isOpen ? '×' : '☰';
 });
 
+const closeMobileMenu = () => {
+	if (!mobileMenu?.classList.contains('is-open')) return;
+	mobileMenu.classList.remove('is-open');
+	menuToggle?.setAttribute('aria-expanded', 'false');
+	if (menuToggle) menuToggle.textContent = '☰';
+};
+
+window.addEventListener('resize', () => {
+	if (window.innerWidth > 850) closeMobileMenu();
+});
+
+window.addEventListener('keydown', (event) => {
+	if (event.key === 'Escape') closeMobileMenu();
+});
+
 const revealItems = document.querySelectorAll('.reveal');
 const revealObserver = new IntersectionObserver((entries, observer) => {
 	entries.forEach((entry) => {

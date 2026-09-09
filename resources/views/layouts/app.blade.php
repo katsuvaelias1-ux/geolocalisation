@@ -49,6 +49,13 @@
         <a href="{{ route('map') }}">Carte</a>
         <a href="{{ route('how-it-works') }}">Comment ça marche</a>
         <a href="{{ route('contact') }}">Contact</a>
+        @auth
+            <a class="mobile-account-link" href="{{ route('dashboard.entry') }}">Mon espace</a>
+            <form method="POST" action="{{ route('logout') }}">@csrf<button class="button button-dark button-full" type="submit">Déconnexion</button></form>
+        @else
+            <a class="mobile-account-link" href="{{ route('login') }}">Connexion</a>
+            <a class="button button-dark button-full" href="{{ route('register') }}">Devenir artisan</a>
+        @endauth
     </nav>
     <main>@yield('content')</main>
     <footer class="site-footer"><div><span class="brand brand-light"><span class="brand-mark">G</span><span>GEO<span>ARTISANS</span></span></span><p>Le savoir-faire local, à portée de carte.</p></div><div><strong>Butembo, Nord-Kivu</strong><span>République démocratique du Congo</span></div><small>© 2026 GeoArtisans Butembo</small></footer>

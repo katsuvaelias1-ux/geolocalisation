@@ -570,3 +570,53 @@ html, body {
     border-radius: 0; /* Enlève les coins arrondis qui créent des vides */
   }
 }
+
+/* Socle responsive : garde les pages longues défilables et les composants dans
+   la largeur visible, quel que soit le moteur de navigateur. */
+html { min-height: 100%; overflow-x: clip; }
+body { min-height: 100vh; min-height: 100dvh; overflow-x: hidden; }
+img, picture, video, canvas, svg { display: block; max-width: 100%; }
+input, select, textarea, button { max-width: 100%; }
+textarea { resize: vertical; }
+
+/* Les anciennes règles plein-écran ne doivent s'appliquer qu'à la carte. */
+.city-map-page { display: block; height: auto; min-height: 620px; }
+.city-map { height: calc(100vh - 130px); height: calc(100dvh - 130px); min-height: 620px; width: 100%; }
+
+@media (max-width: 850px) {
+  .city-map-page { min-height: 0; }
+  .city-map { height: clamp(25rem, 65dvh, 32.5rem); min-height: 0; }
+  .city-map-panel { overflow: visible; }
+  .map-artisan-list { overscroll-behavior: contain; }
+  .profile-actions, .hero-shortcuts, .results-heading, .status-banner { align-items: flex-start; flex-wrap: wrap; }
+}
+
+@media (max-width: 620px) {
+  .site-header { gap: .75rem; padding-left: 5vw; padding-right: 5vw; }
+  .brand { font-size: .72rem; gap: .45rem; letter-spacing: .05em; }
+  .brand-mark { flex: 0 0 2rem; height: 2rem; width: 2rem; }
+  .header-actions > :not(.menu-toggle) { display: none; }
+  .menu-toggle { flex: 0 0 2.7rem; min-height: 2.7rem; }
+  .mobile-menu { padding-left: 5vw; padding-right: 5vw; }
+  .mobile-menu form { margin: 0; }
+  .mobile-menu .mobile-account-link { color: var(--forest); }
+  .page-title { font-size: clamp(2.7rem, 14vw, 4rem); margin-bottom: 2rem; }
+  .dashboard-shell, .artisan-search-shell { padding-bottom: 4.5rem; padding-top: 3.5rem; }
+  .auth-shell { margin-bottom: 4rem; margin-top: 1.5rem; padding-left: 5vw; padding-right: 5vw; }
+  .auth-aside, .form-panel { padding: 1.5rem; }
+  .empty-page, .contact-artisan { padding: 1.5rem; }
+  .profile-services { padding-left: 5vw; padding-right: 5vw; }
+  .profile-actions .button, .artisan-cta .button { width: 100%; }
+  .results-heading { gap: .75rem; }
+  .result-context { white-space: normal; }
+  .map-scale-note { max-width: calc(100% - 1.5rem); }
+}
+
+@media (max-width: 380px) {
+  .brand > span:last-child { display: none; }
+  .site-header { padding-bottom: .75rem; padding-top: .75rem; }
+  .section-band, .steps, .artisan-cta { padding-left: 5vw; padding-right: 5vw; }
+  .artisan-card { gap: .9rem; padding: 1rem; }
+  .artisan-card-actions { min-width: 0; }
+  .map-artisan-card { gap: .5rem; }
+}
